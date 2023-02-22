@@ -1,0 +1,106 @@
+
+/* Header  Part */
+.projectHeader {
+  padding: 10px;
+  background: linear-gradient(to top, #ffffff 0%, #ccccff 100%);
+}
+.projectHeader img {
+  float: left;
+}
+.projectHeader h3,
+p {
+  text-align: center;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+
+::selection {
+  color: #fff;
+  background: #664AFF;
+}
+
+.wrapper {
+  max-width: 450px;
+  margin: 10px auto;
+}
+
+.wrapper .search-input {
+  background: #fff;
+  width: 100%;
+  border-radius: 5px;
+  position: relative;
+  box-shadow: 0px 1px 5px 3px rgba(0, 0, 0, 0.12);
+}
+
+.search-input input {
+  height: 55px;
+  width: 100%;
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  padding: 0 60px 0 20px;
+  font-size: 18px;
+  box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
+}
+
+.search-input.active input {
+  border-radius: 5px 5px 0 0;
+}
+
+.search-input .autocom-box {
+  padding: 0;
+  opacity: 0;
+  pointer-events: none;
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.search-input.active .autocom-box {
+  padding: 10px 8px;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.autocom-box li {
+  list-style: none;
+  padding: 8px 12px;
+  display: none;
+  width: 100%;
+  cursor: default;
+  border-radius: 3px;
+
+}
+
+.search-input.active .autocom-box li {
+  display: block;
+}
+
+.autocom-box li:hover {
+  background: #efefef;
+}
+
+.imgOutput{
+  height : 200px ;
+  max-width : 800px ;
+}
+.imagesContainer{
+  margin : 20px ;
+  padding : 20px ;
+  }
+.newCard {
+  max-height : 300px ;
+  border-style: outset;
+  display : inline-block ;
+  text-align : center ;
+  
+  }
+  .looseImages{
+    height : 120px;
+    width :  120px;
+  }
+  
+  

@@ -1,0 +1,54 @@
+/* Header  Part */
+.projectHeader {
+    padding: 10px;
+    background: linear-gradient(to top, #ffffff 0%, #ccccff 100%);
+  }
+  .projectHeader img {
+    float: left;
+  }
+  .projectHeader h3,
+  p {
+    text-align: center;
+  }
+
+#tts{
+    background-color: rgb(224, 246, 249);
+}
+
+/* WIDGET WRAPPER */
+.widget-wrap {
+    max-width: 500px;
+    padding: 20px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.4);
+}
+
+.widget-wrap label,
+.widget-wrap input,
+.widget-wrap select {
+    display: block;
+    width: 100%;
+    padding: 10px;
+}
+
+/* SVG */
+#vol {
+    width: 100px;
+    height: 100px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+/* FOOTER */
+#code-boxx {
+    font-weight: 600;
+    margin-top: 50px;
+}
+
+#code-boxx a {
+    display: inline-block;
+    padding: 5px;
+    text-decoration: none;
+    background: #b90a0a;
+    color: #fff;
+}

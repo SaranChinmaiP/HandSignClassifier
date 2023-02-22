@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- HEAD SECTION-->
+
+<head>
+  <title>Home</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="./images/hand-peace.png" />
+  <link href="./CSS/tym.css" rel="stylesheet" />
+
+  <link async rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.11.0/dist/tf.min.js" type="text/javascript"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils@0.1/camera_utils.js"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils@0.1/control_utils.js"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils@0.2/drawing_utils.js"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.1/hands.js" crossorigin="anonymous"></script>
+
+</head>
+
+<header>
+  <!--NAVIGATION PANE-->
+  <div class="projectHeader">
+    <img src="./images/vnr-logo.png" alt="collegeLogo" />
+    <h3>Major Project</h3>
+    <p>Hand Sign Classifier - MobileNet-V3</p>
+  </div>
+
+  <nav class="navbar navbar-expand-sm bg-info navbar-dark">
+    <a class="navbar-brand" target="_self" href="#">Main</a>
+    <button title="NavBar" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" target="_blank" href="./Pages/speech.html">Speech</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" target="_self" href="./Pages/tts.html">Signs</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" target="_blank" href="./Pages/funzone.html">Face Dectection</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" target="_self" href="./Pages/train.html">Train</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" target="_blank" href="./Pages/info.html">Info</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>
+<!--BODY SECTION-->
+
+<body>
+  <!--WEBCAM PANE-->
+  <div class="myContainer">
+    <div class="sec1">
+      <span class="blueBadge">Webcam</span>
+      <br />
+
+      <canvas class="webCamContainer" height="480px" width="640px"></canvas>
+    </div>
+
+    <!--Buttons  COLUMN-->
+    <div class="sec2">
+      <span class="blackBadge">Cropped Image</span>
+
+      <canvas class="cropContainer" height="300px" width="300px"></canvas>
+
+      <br />
+
+      <span id="badges" class="blueBadge">Status/Output Box :</span>
+      <div class="outputCard" id="status">
+        Loading MobileNet-V3 ... <br />
+        Please Wait...
+      </div>
+      <br />
+      <button type="button" id="speechButton" class=" butn purpleBtn">Output ReadOut</button>
+    </div>
+    <div class="sec3">
+      <br>
+      <label class="blueBadge" for="upload-json"> JSON :</label>
+      <input title="upload-json" type="file" id="upload-json" />
+
+      <label class="blackBadge" for="upload-weights">Weights:</label>
+
+      <input title="upload-weights" type="file" id="upload-weights" />
+      <br />
+      <button type="button" id="train" class="butn yellowBtn" onclick="UploadModel()"> 0️⃣ Upload Model </button>
+
+      <hr />
+      <span class="blueBadge">Control Buttons</span>
+      <p></p>
+      <button class="butn greyBtn" onclick="  loadMobileNetFeatureModel()">
+        1️⃣Load Core
+      </button>
+      <button type="button" id="train" class="butn yellowBtn" onclick="loadModel()">
+        2️⃣ Load Model
+      </button>
+      <button type="button" class="butn secondaryBtn" onclick="Check()">
+        3️⃣Start-Model
+      </button>
+      <hr />
+      <span class="blackBadge">Prediction Array</span>
+      <p> </p>
+      <div class="Box">
+
+      </div>
+
+      <div style="visibility: hidden" class="control3"></div>
+
+      <video style="visibility: hidden" height="1px" class="input_LiveFeed" autoplay></video>
+    </div>
+  </div>
+  <br />
+  <!--FOOTER SECTION-->
+  <footer class="footer">
+    <p>
+      Project Under guidence of
+      <abbr title="Asst.Prof - EEE Department VNR VJEIT.">
+        <a href="./Pages/team.html">Dr. O.Sobhana</a></abbr>
+    </p>
+    <div>
+      <p>
+        <a href="./Pages/team.html" rel="noopener">Team</a>
+        <a href="https://github.com/SaranChinmaiP/MajorProject" rel="noopener">GitHub</a>
+        <a href="https://saranchinmaip.github.io/CV/" rel="noopener">Profile</a>
+        <a href="https://www.geeksforgeeks.org/introduction-deep-learning/" rel="noopener">About-DL</a>
+        <a href="http://www.vnrvjiet.ac.in/" rel="noopener">VNR-VJIET</a>
+      </p>
+      <p>Developed by SaranChinmai.P</p>
+    </div>
+  </footer>
+</body>
+
+<script src="./scripts/test.js"></script>
+
+</html>
