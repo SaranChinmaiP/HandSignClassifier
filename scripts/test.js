@@ -153,7 +153,7 @@ async function loadMobileNetFeatureModel() {
 async function loadModel(){
     console.log("Info : Loading Model - JSON and Weights") ;
      model = await tf.loadLayersModel(
-        'http://127.0.0.1:5501/myModel/my-model.json');
+        'https://github.com/SaranChinmaiP/HandSignClassifier/blob/main/myModel/my-model.json');
    model.summary();
    modelLoaded = true ;
    createBars() ;
