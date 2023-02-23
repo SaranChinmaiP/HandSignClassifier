@@ -149,7 +149,7 @@ async function loadMobileNetFeatureModel() {
 
   }
 
- 
+ /* Change the LoadLayers Origin While Deploying the Server*/
 async function loadModel(){
     console.log("Info : Loading Model - JSON and Weights") ;
      model = await tf.loadLayersModel(

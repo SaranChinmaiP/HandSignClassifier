@@ -1,0 +1,12 @@
+0 Stay Strong
+1 Stop
+2 See You
+3 I Disagree
+4 Good Job
+5 Good Luck
+6 Hello
+7 I Love You
+8 Up
+9 Peace
+10 Smile
+11 Well Done
