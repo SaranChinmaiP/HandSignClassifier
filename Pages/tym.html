@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- HEAD SECTION-->
+
+<head>
+  <title>TYM</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="../images/hand-peace.png" />
+  <link href="../CSS/tym.css" rel="stylesheet" />
+  <link async rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.11.0/dist/tf.min.js" type="text/javascript"></script>
+
+
+</head>
+<!--BODY SECTION-->
+<!--HEADER PART-->
+
+
+<header>
+  <!--NAVIGATION PANE-->
+  <div class="projectHeader">
+    <img src="../images/vnr-logo.png" alt="collegeLogo" />
+    <h3>Train Your DNN - Model</h3>
+    <p>Training Environment</p>
+  </div>
+  <!--NAVIGATION PANE-->
+  <nav class="navbar navbar-expand-sm bg-success navbar-dark">
+    <a class="navbar-brand" target="_self" href="../index.html">Main</a>
+    <button title="NavBar" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" target="_blank" href="../Pages/speech.html">Speech</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" target="_self" href="../Pages/tts.html">Signs</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" target="_blank" href="../Pages/funzone.html">Face Dectection</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" target="_self" href="#">Train</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" target="_self" href="#">Train Your Model</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" target="_blank" href="../Pages/info.html">Info</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>
+<style>
+  .myContainer {
+    display: grid;
+    grid-template-columns: 400px 350px 400px 300px;
+    grid-auto-rows: 1fr;
+    gap: 0px 20px;
+    grid-auto-flow: row;
+  }
+
+  .sec1 {
+    padding-left: 50px;
+  }
+
+  .sec1,
+  .sec2,
+  .sec3,
+  .sec4 {
+    margin-top: 10px;
+  }
+
+  .webCamContainer {
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+  }
+</style>
+
+<body>
+  <!--WEBCAM PANE--> <!-- Section 1 Column-->
+
+  <div class="myContainer">
+    <div class="sec1">
+      <span class="blueBadge">Webcam</span>
+      <br />
+      <video class='webCamContainer' height="350px" width="350px" id="input_LiveFeed" autoplay></video>
+      <hr />
+
+      <button class="butn greyBtn" id="download" onclick="modelDownload()">
+        ⬇️Download Model
+      </button>
+      <button type="button" class="butn yellowBtn" id="reset">Reset</button>
+<hr>
+<button type="button" onclick="playCam()" class="butn secondaryBtn" id="reset">Play Cam</button>
+<button type="button" onclick="pauseCam()" class="butn purpleBtn" id="reset">Pause Cam</button>
+
+    </div>
+    <!-- Section 2 Column-->
+    <div class='sec2'>
+      <div class="epochsValCont">
+        <span class="blueBadge">Epochs </span>
+
+        <input id="epochsValue" placeholder="Epochs" type="number" value="20" />
+        <button type="button" class="addClassBtn" onclick="createNewClass()">
+          +
+        </button>
+      </div>
+      <div class="classesCards">
+        <div class="classCard">
+          <input class="nameCollector" type="text" placeholder="Class 1" value="Class 1" />
+          <button type="button" class="dataCollector" data-1hot=" 0" data-name="Class 1"> 📷 </button>
+
+        </div>
+      </div>
+      <br />
+
+    </div>
+    <!--Buttons  COLUMN--> <!-- Section 3 Column-->
+
+    <div class='sec3'>
+      <span class="blackBadge">Controls :</span>
+      <div>
+        <button class="butn yellowBtn" onclick="FeedClassName()">
+          1️⃣Warm-Up
+        </button>
+        <button type="button" id="train" class="butn secondaryBtn">
+          2️⃣ Train
+        </button>
+        <button type="button" class="butn secondaryBtn" onclick="predictLoop()">
+          3️⃣ Predict!
+        </button>
+      </div>
+      <hr>
+      <span class="blueBadge">Status/Output Box :</span>
+      <div class="outputCard" id="status"> Loading MobileNet-V3 ... <br /> Please Wait... </div>
+      <hr>
+
+      <span class="blackBadge">Console :</span>
+      <div class="outputCard" id="consoleLog">
+        Once Training Starts <br> You Can Observe Different Training Stages and
+        Parameters .
+      </div>
+
+    </div>
+    <!-- Section 4 Column-->
+
+    <div class="sec4">
+      <span class="blackBadge">Prediction Array :</span>
+      <p> </p>
+      <div class="Box">
+
+      </div>
+    </div>
+  </div>
+  <br />
+  </div>
+  <br />
+  <!--FOOTER SECTION-->
+  <footer class="footer">
+    <p>
+      Project Under guidence of
+      <abbr title="Asst.Prof - EEE Department VNR VJEIT.">
+        <a href="./Pages/team.html">Dr. O.Sobhana</a></abbr>
+    </p>
+    <div>
+      <p>
+        <a href="./Pages/team.html" rel="noopener">Team</a>
+        <a href="https://github.com/SaranChinmaiP/MajorProject" rel="noopener">GitHub</a>
+        <a href="https://saranchinmaip.github.io/CV/" rel="noopener">Profile</a>
+        <a href="https://www.geeksforgeeks.org/introduction-deep-learning/" rel="noopener">About-DL</a>
+        <a href="http://www.vnrvjiet.ac.in/" rel="noopener">VNR-VJIET</a>
+      </p>
+      <p>Developed by SaranChinmai.P</p>
+    </div>
+  </footer>
+  <script src="../scripts/tym.js"></script>
+
+</body>
+
+
+</html>
