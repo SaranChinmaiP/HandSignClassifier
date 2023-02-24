@@ -10,13 +10,13 @@ body{
 }
 .projectHeader img {
   float: left;
+  
 }
 .projectHeader h3,
 p {
   text-align: center;
   color : white;
 }
-
 
 
 .myContainer {
@@ -140,7 +140,7 @@ p {
 }
 .yellowBtn:hover {
   background-color: #ffff33;
-  color: #ffffff;
+  color: #000000 ;
 }
 .purpleBtn {
   color: #df80ff;
@@ -151,7 +151,6 @@ p {
   background-color: #df80ff;
   color: #ffffff;
 }
-
 
 .blueBadge {
   font-size: 15px;

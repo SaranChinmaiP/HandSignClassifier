@@ -1,10 +1,11 @@
-console.log('Test Script Runnning ');
+console.log("Test Script Runnning ");
 
 /**
  * MediaPipe Hand Tracking Module
  * Camera Control and Canvas Control
 
  */
+let videoPlaying = false;
 const LiveFeed = document.getElementsByClassName("input_LiveFeed")[0];
 const canvasOut1 = document.getElementsByClassName("webCamContainer")[0];
 const canvasOut2 = document.getElementsByClassName("cropContainer")[0];
@@ -13,11 +14,30 @@ const canvasCtx1 = canvasOut1.getContext("2d");
 const box = document.querySelector(".Box");
 const controlsElement3 = document.getElementsByClassName("control3")[0];
 const fpsControl = new FPS();
-const speechButton = document.getElementById('speechButton') ;
-const hexArray = [  "FFE4B5",  "ff3300",  "FFFF00",  "e600e6",  "e68a00",  "0066ff",  "1a53ff",  "AFEEEE",  "B0C4DE",  "FFDEAD",  "DCDCDC",
-  "BA55D3",  "20B2AA",  "DDA0DD",  "ffff1a",  "00BFFF",  "7FFF00",  "ff1a66",];
-const className = ['Stay Strong' , 'Stop', 'I Love You '] ;
-speechButton.addEventListener('mousedown',outputReadOut);
+const speechButton = document.getElementById("speechButton");
+const hexArray = [
+  
+  "ff3300",
+  "FFFF00",
+  "e600e6",
+  "e68a00",
+  "0066ff",
+  "1a53ff",
+  "AFEEEE",
+  "B0C4DE",
+  "FFDEAD",
+  "DCDCDC",
+  "BA55D3",
+  "20B2AA",
+  "DDA0DD",
+  "ffff1a",
+  "00BFFF",
+  "7FFF00",
+  "ff1a66",
+  "FFE4B5",
+];
+let classNamesList = ["Stay Strong", "Stop", "I Love You "];
+speechButton.addEventListener("mousedown", outputReadOut);
 
 function onResultsHands(results) {
   {
@@ -28,10 +48,16 @@ function onResultsHands(results) {
 
   canvasCtx1.save();
   canvasCtx1.clearRect(0, 0, canvasOut1.width, canvasOut1.height);
-  canvasCtx1.drawImage(results.image, 0, 0, canvasOut1.width, canvasOut1.height);
+  canvasCtx1.drawImage(
+    results.image,
+    0,
+    0,
+    canvasOut1.width,
+    canvasOut1.height
+  );
   {
     canvasCtx1.beginPath();
-    canvasCtx1.rect(300,100, 300, 300);
+    canvasCtx1.rect(300, 100, 300, 300);
     canvasCtx1.lineWidth = 0.5;
     canvasCtx1.strokeStyle = "purple";
     canvasCtx1.stroke();
@@ -54,7 +80,7 @@ function onResultsHands(results) {
           },
         });
     }
-  } 
+  }
   canvasCtx1.restore();
 }
 
@@ -109,145 +135,172 @@ new ControlPanel(controlsElement3, {
   });
 
 /**
- * Loading the Model from Loacl file System 
- * Predicting the OutPut
- * 
+ * Pause and Play the Camera
  */
-
 
 const STATUS = document.getElementById("status");
 const MOBILE_NET_INPUT_WIDTH = 224;
 const MOBILE_NET_INPUT_HEIGHT = 224;
 const speech = new SpeechSynthesisUtterance();
-speech.text = 'Load the Models and start Predictions' ;
-let model = undefined, mobilenet = undefined;
-let predict = false , modelLoaded = false, mobilenetLoaded = false
-let maxPredictions = className.length ;
-let imageFeatures = undefined , prediction = undefined , highestIndex  = undefined , predictionArray = undefined ;
-let roundedPercentage = 40 ;
-let rate = 40 ,i = 0 ,createBarFlag = true ;
-
-
+speech.text = "Load the Models and start Predictions";
+let model = undefined,
+  mobilenet = undefined;
+let predict = false,
+  modelLoaded = false,
+  mobilenetLoaded = false;
+let maxPredictions = classNamesList.length;
+let imageFeatures = undefined,
+  prediction = undefined,
+  highestIndex = undefined,
+  predictionArray = undefined;
+let roundedPercentage = 40;
+let rate = 40,
+  i = 0,
+  createBarFlag = true;
 
 async function loadMobileNetFeatureModel() {
-    console.log('Info :  Loading MobileNet FeatureModel V3  ');
-    window.alert("MobileNet-V3 is Loading , Check Status box ");
+  console.log("Info :  Loading MobileNet FeatureModel V3  ");
+  window.alert("MobileNet-V3 is Loading , Check Status box ");
 
-    const URL =
-      "https://tfhub.dev/google/tfjs-model/imagenet/mobilenet_v3_small_100_224/feature_vector/5/default/1";
-    mobilenet = await tf.loadGraphModel(URL, { fromTFHub: true });
-    STATUS.innerText = "MobileNet v3 loaded successfully!";
-    mobilenetLoaded = true
-  
-    // Warm up the model by passing zeros through it once.
-    tf.tidy(function () {
-      let answer = mobilenet.predict(
-        tf.zeros([1, MOBILE_NET_INPUT_HEIGHT, MOBILE_NET_INPUT_WIDTH, 3])
-      );
-      console.log(answer.shape);
-    });
+  const URL =
+    "https://tfhub.dev/google/tfjs-model/imagenet/mobilenet_v3_small_100_224/feature_vector/5/default/1";
+  mobilenet = await tf.loadGraphModel(URL, { fromTFHub: true });
+  STATUS.innerText = "MobileNet v3 loaded successfully!";
+  mobilenetLoaded = true;
 
-  }
-
- /* Change the LoadLayers Origin While Deploying the Server*/
-async function loadModel(){
-    console.log("Info : Loading Model - JSON and Weights") ;
-     model = await tf.loadLayersModel(
-        '../myModel/my-model.json');
-   model.summary();
-   modelLoaded = true ;
-   createBars() ;
-   window.alert("Model Loaded SucessFully , 3️⃣Start-Model Now");
-
-
+  // Warm up the model by passing zeros through it once.
+  tf.tidy(function () {
+    let answer = mobilenet.predict(
+      tf.zeros([1, MOBILE_NET_INPUT_HEIGHT, MOBILE_NET_INPUT_WIDTH, 3])
+    );
+    console.log(answer.shape);
+  });
 }
-function Check(){
-  if(modelLoaded && mobilenetLoaded){
-predict = true ;
-console.log("Info : Predict Cycle Started") ;
 
-  }else{
-    window.alert('Info :Please Load the Models') ;
+/* Change the LoadLayers Origin While Deploying the Server*/
+async function loadModel() {
+  if (modelLoaded) {
+    window.alert(
+      "Info : Seems Like You alredy Uploaded the Model Files , Please Proced with 1 & 3 Buttons"
+    );
+  } else {
+    console.log("Info : Loading Model - JSON and Weights");
+    model = await tf.loadLayersModel(
+      "../myModel/my-model.json"
+    );
+    model.summary();
+    modelLoaded = true;
+    createBars(classNamesList, maxPredictions);
+    window.alert("Model Loaded SucessFully , 3️⃣Start-Model Now");
   }
 }
-function outputReadOut(){
+function Check() {
+  if (modelLoaded && mobilenetLoaded) {
+    predict = true;
+    console.log("Info : Predict Cycle Started");
+  } else {
+    window.alert("Info : Please Load the Models");
+  }
+}
+function outputReadOut() {
   speechSynthesis.speak(speech);
 }
+
 function predictLoop() {
-  
-    if (predict) {
-      tf.tidy
-      (function () {
-        imageFeatures = calculateFeaturesOnCurrentFrame();
-        prediction = model.predict(imageFeatures.expandDims()).squeeze();
-        highestIndex    = prediction.argMax().arraySync();
-        predictionArray = prediction.arraySync();
-        roundedPercentage =  Math.floor(predictionArray[highestIndex] * 100)  ;
-        STATUS.innerText    = className[highestIndex] +  " : " +   roundedPercentage +     "% Confidence";
-        speech.text = highestIndex;
-
-        updateProgressBar(    predictionArray       );
-        
-
-      });
-  
-      // window.requestAnimationFrame(predictLoop);
-    }
-    
-    
-  }
-  function calculateFeaturesOnCurrentFrame() {
-    return tf.tidy(function () {
-      // Grab pixels from current VIDEO frame.
-      let videoFrameAsTensor = tf.browser.fromPixels(canvasOut2);
-      // Resize video frame tensor to be 224 x 224 pixels which is needed by MobileNet for input.
-      let resizedTensorFrame = tf.image.resizeBilinear(
-        videoFrameAsTensor,
-        [MOBILE_NET_INPUT_HEIGHT, MOBILE_NET_INPUT_WIDTH],
-        true
-      );
-      let normalizedTensorFrame = resizedTensorFrame.div(255);
-      return mobilenet.predict(normalizedTensorFrame.expandDims()).squeeze();
+  if (predict) {
+    tf.tidy(function () {
+      imageFeatures = calculateFeaturesOnCurrentFrame();
+      prediction = model.predict(imageFeatures.expandDims()).squeeze();
+      highestIndex = prediction.argMax().arraySync();
+      predictionArray = prediction.arraySync();
+      roundedPercentage = Math.floor(predictionArray[highestIndex] * 100);
+      STATUS.innerText =
+        className[highestIndex] + " : " + roundedPercentage + "% Confidence";
+      speech.text = highestIndex;
+      updateProgressBar(predictionArray);
     });
+
+    // window.requestAnimationFrame(predictLoop);
   }
-    
+}
+function calculateFeaturesOnCurrentFrame() {
+  return tf.tidy(function () {
+    // Grab pixels from current VIDEO frame.
+    let videoFrameAsTensor = tf.browser.fromPixels(canvasOut2);
+    // Resize video frame tensor to be 224 x 224 pixels which is needed by MobileNet for input.
+    let resizedTensorFrame = tf.image.resizeBilinear(
+      videoFrameAsTensor,
+      [MOBILE_NET_INPUT_HEIGHT, MOBILE_NET_INPUT_WIDTH],
+      true
+    );
+    let normalizedTensorFrame = resizedTensorFrame.div(255);
+    return mobilenet.predict(normalizedTensorFrame.expandDims()).squeeze();
+  });
+}
 
-  
-// Suppose there are two HTML file input (`<input type="file" ...>`)
-// elements.
-const uploadJSONInput = document.getElementById('upload-json');
-const uploadWeightsInput = document.getElementById('upload-weights');
-async function UploadModel(){
-   
-     model =  await tf.loadLayersModel(tf.io.browserFiles( [uploadJSONInput.files[0], uploadWeightsInput.files[0]]));
-     modelLoaded = true ;
-     window.alert("Model Loaded SucessFully , 3️⃣ Start-Model now");
+/*Gets the User's Own Model JSON Files , Weights and Labels from the HTML Frontend*/
+const uploadJSONInput = document.getElementById("upload-json");
+const uploadWeightsInput = document.getElementById("upload-weights");
+const uploadClassNameList = document.getElementById("upload-NamesList");
 
+async function UploadModel() {
+  if (
+    uploadJSONInput.files.length &&
+    uploadWeightsInput.files.length &&
+    uploadClassNameList.files.length
+  ) {
+    model = await tf.loadLayersModel(
+      tf.io.browserFiles([
+        uploadJSONInput.files[0],
+        uploadWeightsInput.files[0],
+      ])
+    );
+    modelLoaded = true;
+    window.alert("Model Loaded SucessFully , 3️⃣ Start-Model now");
+    loadClassNamesList();
+  } else {
+    window.alert("Upload all Three Files , Else Proceed with 1 2 3 buttons");
+  }
 }
 
 /* Updates the Confidence rate in the Bar Graphs Output*/
 function updateProgressBar(predictionArray) {
-  for(i = 0 ; i < maxPredictions ; i++){
-    rate =  Math.floor(predictionArray[i] * 100)  ;
-    box.getElementsByClassName("progress")[i].querySelector(".progress__fill").style.width = `${rate}%`;
-    box.getElementsByClassName("progress")[i].querySelector(   ".progress__text" ).textContent = `${i} : ${rate}%`;
+  for (i = 0; i < maxPredictions; i++) {
+    rate = Math.floor(predictionArray[i] * 100);
+    box
+      .getElementsByClassName("progress")
+      [i].querySelector(".progress__fill").style.width = `${rate}%`;
+    box
+      .getElementsByClassName("progress")
+      [i].querySelector(".progress__text").textContent = `${i} : ${rate}%`;
   }
-  /*  */
-  
 }
 /* Creates Bars when Start Model i.e, init() is Pressed */
-function createBars() {
+function createBars(className, maxPredictions) {
   if (createBarFlag) {
     console.log(" Created Confidence Bar graphs  ");
-    for (let i = 0; i < maxPredictions; i++) {
+    for (let i = 0; i < className.length; i++) {
       box.innerHTML += `<span>${className[i]} : </span><div class="progress">   
      <div style = "background: #${hexArray[i]}"class="progress__fill"></div>
     <span class="progress__text">0%</span>
   </div>`;
     }
-    createBarFlag = false
-
+    maxPredictions = className.length;
+    createBarFlag = false;
   } else {
     console.log("Already Created");
   }
+}
+
+function loadClassNamesList() {
+  let valueTextFile = uploadClassNameList.files[0];
+  let reader = new FileReader(); // create a FileReader object
+  reader.onload = function (e) {
+    // define an onload callback function
+    let text = e.target.result; // get the text content of the file
+    let ValueArray = text.split(","); // split the text by newline characters into an array
+    console.log(ValueArray);
+    createBars(ValueArray, maxPredictions);
+  };
+  reader.readAsText(valueTextFile); // read the file as text
 }

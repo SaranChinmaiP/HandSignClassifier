@@ -330,8 +330,28 @@ function reset() {
  * Two Files are Downloads , json and weights.bin files
  */
 async function modelDownload() {
+  createClassList() ;
   await model.save("downloads://my-model");
 }
+
+let url = undefined ;
+let link = undefined ;
+function createClassList(){
+  // Convert array to file object
+  const file = new File([CLASS_NAMES], 'classNames.txt', {
+    type: "text/plain",
+  })// Create a URL that points to the blob
+ url = URL.createObjectURL(file);
+// Create an anchor element with the URL and download attribute
+link = document.createElement('a');
+link.href = url;
+link.download = 'classNames.txt';
+// Append the link to the document body and click it
+document.body.appendChild(link);
+link.click();
+}
+
+
 // Starts the web-Camera  as soons as the Page opens.
 
 let rate = 40 ,i = 0 ,createBarFlag = true ;

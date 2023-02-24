@@ -46,9 +46,7 @@
         <li class="nav-item">
           <a class="nav-link" target="_blank" href="./Pages/funzone.html">Face Dectection</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" target="_self" href="./Pages/train.html">Train</a>
-        </li>
+      
         <li class="nav-item">
           <a class="nav-link" target="_self" href="./Pages/tym.html">Train Your Model</a>
         </li>
@@ -90,11 +88,14 @@
     <div class="sec3">
       <br>
       <label class="blueBadge" for="upload-json"> JSON :</label>
-      <input title="upload-json" type="file" id="upload-json" />
+      <input title="upload-json" type="file" accept="application/json" id="upload-json" />
 
       <label class="blackBadge" for="upload-weights">Weights:</label>
+      <input title="upload-weights" type="file" accept=".bin" id="upload-weights" />
 
-      <input title="upload-weights" type="file" id="upload-weights" />
+
+      <label class="blackBadge" for="upload-NamesList">Labels:</label>
+      <input title="upload-ClassNams" type="file" accept=".txt" id="upload-NamesList" />
       <br />
       <button type="button" id="utrain" class="butn yellowBtn" onclick="UploadModel()"> 0️⃣ Upload Model </button>
 
@@ -113,6 +114,7 @@
       <hr />
       <span class="blackBadge">Prediction Array</span>
       <p> </p>
+      
       <div class="Box">
 
       </div>
