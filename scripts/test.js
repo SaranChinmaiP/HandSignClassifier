@@ -15,8 +15,10 @@ const box = document.querySelector(".Box");
 const controlsElement3 = document.getElementsByClassName("control3")[0];
 const fpsControl = new FPS();
 const speechButton = document.getElementById("speechButton");
+let labelsArray = ["Stay Strong", "Stop", "I Love You "];
+
 const hexArray = [
-  
+
   "ff3300",
   "FFFF00",
   "e600e6",
@@ -36,7 +38,6 @@ const hexArray = [
   "ff1a66",
   "FFE4B5",
 ];
-let classNamesList = ["Stay Strong", "Stop", "I Love You "];
 speechButton.addEventListener("mousedown", outputReadOut);
 
 function onResultsHands(results) {
@@ -148,7 +149,7 @@ let model = undefined,
 let predict = false,
   modelLoaded = false,
   mobilenetLoaded = false;
-let maxPredictions = classNamesList.length;
+let maxPredictions = labelsArray.length;
 let imageFeatures = undefined,
   prediction = undefined,
   highestIndex = undefined,
@@ -190,7 +191,7 @@ async function loadModel() {
     );
     model.summary();
     modelLoaded = true;
-    createBars(classNamesList, maxPredictions);
+    createBars(labelsArray);
     window.alert("Model Loaded SucessFully , 3️⃣Start-Model Now");
   }
 }
@@ -215,7 +216,7 @@ function predictLoop() {
       predictionArray = prediction.arraySync();
       roundedPercentage = Math.floor(predictionArray[highestIndex] * 100);
       STATUS.innerText =
-        className[highestIndex] + " : " + roundedPercentage + "% Confidence";
+        labelsArray[highestIndex] + " : " + roundedPercentage + "% Confidence";
       speech.text = highestIndex;
       updateProgressBar(predictionArray);
     });
@@ -267,16 +268,12 @@ async function UploadModel() {
 function updateProgressBar(predictionArray) {
   for (i = 0; i < maxPredictions; i++) {
     rate = Math.floor(predictionArray[i] * 100);
-    box
-      .getElementsByClassName("progress")
-      [i].querySelector(".progress__fill").style.width = `${rate}%`;
-    box
-      .getElementsByClassName("progress")
-      [i].querySelector(".progress__text").textContent = `${i} : ${rate}%`;
+    box.getElementsByClassName("progress")[i].querySelector(".progress__fill").style.width = `${rate}%`;
+    box.getElementsByClassName("progress")[i].querySelector(".progress__text").textContent = `${i} : ${rate}%`;
   }
 }
 /* Creates Bars when Start Model i.e, init() is Pressed */
-function createBars(className, maxPredictions) {
+function createBars(className) {
   if (createBarFlag) {
     console.log(" Created Confidence Bar graphs  ");
     for (let i = 0; i < className.length; i++) {
@@ -285,7 +282,6 @@ function createBars(className, maxPredictions) {
     <span class="progress__text">0%</span>
   </div>`;
     }
-    maxPredictions = className.length;
     createBarFlag = false;
   } else {
     console.log("Already Created");
@@ -298,9 +294,10 @@ function loadClassNamesList() {
   reader.onload = function (e) {
     // define an onload callback function
     let text = e.target.result; // get the text content of the file
-    let ValueArray = text.split(","); // split the text by newline characters into an array
-    console.log(ValueArray);
-    createBars(ValueArray, maxPredictions);
+    labelsArray = text.split(","); // split the text by newline characters into an array
+    console.log(labelsArray);
+    maxPredictions = labelsArray.length;
+    createBars(labelsArray);
   };
   reader.readAsText(valueTextFile); // read the file as text
 }
